@@ -1,0 +1,25 @@
+<aura:component >
+     <aura:attribute name="physicalAddress" type="Additional_Address__c" default="{
+                                                                              'sobjectType' : 'PhysicalAddress__c'
+                                                                              }"/>
+    <aura:attribute name="mailingAddress" type="Case" default = "{
+                                                                              'sobjectType' : 'MailingAddress__c'
+                                                                              }"/>
+    <aura:attribute name="isChecked" type="boolean" default="false"/>
+    <h1>Autofill function</h1>
+    <div class="slds-p-top_large">
+        <lightning:input type="text" label="Address1" value="{!v.physicalAddress.Address__c}" ></lightning:input>
+        <lightning:input type="text" label="Address2" value="{!v.physicalAddress.Address_Line_2__c}"></lightning:input>
+    </div>
+    
+    
+    <div class="slds-p-top_large">
+        <lightning:input type="checkbox" aura:id = "checkBoxId" label="Check to fill the mailing address" checked="{!v.isChecked}" onchange="{!c.checkboxFunction}"></lightning:input>
+    </div>
+    
+    <div class="slds-p-top_large">
+        <lightning:input type="text" label="Address1" value="{!v.mailingAddress.Address__c}" onchange="{!c.handleChange}"></lightning:input>
+        <lightning:input type="text" label="Address2" value="{!v.mailingAddress.Address_Line_2__c}" onchange="{!c.handleChange}"></lightning:input>
+        
+    </div>
+</aura:component>

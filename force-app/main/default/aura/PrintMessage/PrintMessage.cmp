@@ -1,0 +1,12 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    
+    <aura:attribute name="messageToPrint" type="String"/>
+    <aura:attribute name="showMessage" type="Boolean" default="false"/>
+    <lightning:input> id="messageToShow"
+                     value="{!v.messageToPrint}"
+                     placeHolder="type here"</lightning:input>
+    <button class="slds-button"  label="updateMessage" onClick="{!c.onClick}"></button>
+    <aura:if isTrue = "{!v.showMessage}">
+    <h1>{!v.messageToPrint}</h1>
+    </aura:if>
+</aura:component>

@@ -1,0 +1,10 @@
+<!-- Code by CafeForce || www.cafeforce.com || support@cafeforce.com -->
+<aura:component controller="MassClientFeeDistributionController">
+
+    <aura:attribute name="options" type="List" />
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}"/> 
+    <aura:attribute name="selectedValues" type="List" default="" description="Selected value in Multi Select" />
+
+    <c:MultiSelectCombobox options="{!v.options}" values="{!v.selectedValues}" multiSelect="true" label="Multi Select Combobox"/>
+
+</aura:component>

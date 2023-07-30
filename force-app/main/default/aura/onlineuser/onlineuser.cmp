@@ -1,0 +1,51 @@
+<aura:component CONTROLLER="user" implements="lightning:isUrlAddressable,force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    
+    <aura:attribute name="PageHeading" type="String" default="Copy Account Address Through Check Box"/>
+    <aura:attribute name="RegForm1" type="Additional_Address__c"/>
+    <aura:attribute name="RegForm" type="Account" default="{'sobjectType' : 'Account'}"/>
+    <aura:attribute name="CheckboxValue" type="Boolean" default="false"/>
+    
+    <div class="slds-m-top--xx-large">
+        <div class="slds-page-header">
+            <div class="slds-align--absolute-center">
+                <div class="slds-text-heading--large">       
+                    {!v.PageHeading}
+                </div>
+            </div>
+        </div>
+    </div>
+    <br/> <br/>
+    
+    <div class = "slds-size--3-of-8">
+        <div class="slds-section slds-is-open">
+            <h3 class="slds-section__title slds-theme_shade">
+                <span class="slds-truncate slds-p-horizontal_small" title="Section Title">Billing Address</span>
+            </h3>
+            <br/>
+            <div aria-hidden="false" class="slds-section__content">
+                <lightning:input label="Billing Street " name="BillingStreet" value="{!v.RegForm.BillingStreet}"/>
+                <br/>
+                <lightning:input label="Billing City" name="BillingCity" value="{!v.RegForm.BillingCity}"/>
+                <br/>
+               
+                <br/>
+                <lightning:input type="checkbox" aura:id="checkBoxId" label="Is Shipping address same as Billing address" name="checkbox" onchange="{!c.onClickCheckBox}"/>
+                <br/>
+            </div>
+        </div>
+        <br/> 
+        <div class="slds-section slds-is-open">
+            <h3 class="slds-section__title slds-theme_shade">
+                <span class="slds-truncate slds-p-horizontal_small" title="Section Title">Shipping Address</span>
+            </h3>
+            <br/>
+            <div aria-hidden="false" class="slds-section__content">
+                <lightning:input label="Shipping Street " name="ShippingStreet" value="{!v.RegForm1.Address__c}"/>
+                <br/>
+                <lightning:input label="Shipping City" name="ShippingCity" value="{!v.RegForm1.Address_Line_2__c}"/>
+                <br/>
+               
+            </div>
+        </div>
+    </div>
+</aura:component>

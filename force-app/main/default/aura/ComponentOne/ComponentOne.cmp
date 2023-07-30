@@ -1,0 +1,8 @@
+<aura:component >
+	<aura:registerEvent name="applicationEvent" type="c:applicationEvent"></aura:registerEvent>
+    <aura:attribute name="message" type="String" />
+    <aura:attribute name="label" type="String" />
+    <lightning:input name="inputMessage" type="text" value="{!v.message}"/>
+    <lightning:button label="fire event" onClick="{!c.fireEventHandler}" />
+    
+</aura:component>

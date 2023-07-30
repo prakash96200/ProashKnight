@@ -1,0 +1,11 @@
+<template>
+    <lightning-modal-header label="Warning"></lightning-modal-header>
+    <lightning-modal-body>
+        <div class="slds-align_absolute-center">
+            <strong>{content}</strong>
+        </div>
+    </lightning-modal-body>
+    <lightning-modal-footer>
+        <lightning-button label="Confirm" onclick={handleConfirm}></lightning-button>
+    </lightning-modal-footer>
+</template>

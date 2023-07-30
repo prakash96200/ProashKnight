@@ -1,0 +1,75 @@
+<template>
+    <template if:false={isNoNonDealerFound}>
+    <template if:false={accountList}>
+        <lightning-card>
+
+            <div class="slds-align_absolute-center">
+                <lightning-card>
+                    <div class="slds-p-around_x-large">
+                        <h6><strong>Lets Find Your Repair Facility</strong></h6>
+                        <lightning-radio-group id="radioButton" label="Help Us Find Your Facility" options={options}
+                            value={radioButtonValue} type="radio" onchange={handleChange} required></lightning-radio-group>
+                    </div>
+                    <template if:true={isDealerOrNonDealer}>
+                        <lightning-layout multiple-rows>
+                            <lightning-layout-item padding="around-small" size="6">
+                                <template if:true={isDealer}>
+                                    <lightning-input class="validate" label="Facility Name" type="Text"
+                                        value={facilityName} onchange={handleFacilityName} required></lightning-input>
+                                </template>
+                                <lightning-input label="Tax Id Number Type" type="text" value="EIN" read-only="true">
+                                </lightning-input>
+
+                                <lightning-input class="validate" label="Facility Phone number" type="text"
+                                    pattern="(\(\d{3}\)\s\d{3}-\d{4})|([0-9]{10})" onblur={formatPhoneNumber}
+                                    message-when-pattern-mismatch="Please enter a valid phone number"
+                                    value={facilityPhoneNumber} onchange={handleFacilityPhone}></lightning-input>
+
+                            </lightning-layout-item>
+                            <lightning-layout-item padding="around-small" size="6">
+
+
+                                <lightning-input class="validate" label="Facility Zip Code" type="text"
+                                    pattern="^[0-9]{5}(?:-[0-9]{4})?$"
+                                    message-when-pattern-mismatch="ZIP code must be in 99999, 99999-9999, X9X9X9 or X9X 9X9 format."
+                                    onchange={handleFacilityZipCode} value={facilityZipCode} required>
+                                </lightning-input>
+
+
+                                <lightning-input class="validate" label="Employee Identification Number (recommended)"
+                                    type="password" pattern="[0-9]{9}$"
+                                    message-when-pattern-mismatch="Please enter a valid EIN number" onchange={handleEIN}
+                                    value={einNumber}></lightning-input>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                        <div class="slds-card__footer">
+                            <lightning-button variant="brand" label="Next" class="slds-m-left_x-small slds-float_right"
+                                onclick={SearchAccountHandler}></lightning-button>
+                        </div>
+                    </template>
+                </lightning-card>
+            </div>
+
+
+        </lightning-card>
+    </template>
+
+    <template if:true={accountList}>
+        <lightning-layout multiple-rows>
+            <lightning-layout-item  size="6">
+                <template for:each={accountList} for:item="account">
+                    <div key={account.id} style="margin-bottom: 10px">
+                    <lightning-card  title={account.Name}>
+                        <lightning-button label="Select" variant="brand" slot="actions"></lightning-button>
+                        <p class="slds-p-horizontal_small">{account.Name}</p>
+                    </lightning-card>
+                </div>
+                </template>
+            </lightning-layout-item>
+        </lightning-layout>
+    </template>
+</template>
+<template if:true ={isNoNonDealerFound}>
+    <c-new-non-dealer-account-creation-component is-dealer-or-non-dealer-record-type={isDealerOrNonDealerRecordType} onpass={handlePassAccountListEvent} onback={handleBackEvent}></c-new-non-dealer-account-creation-component>
+</template>
+</template>

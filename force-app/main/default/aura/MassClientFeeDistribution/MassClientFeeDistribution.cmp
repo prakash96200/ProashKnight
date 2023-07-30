@@ -1,0 +1,310 @@
+<aura:component controller="MassClientFeeDistributionController" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction" access="global" >
+	<aura:attribute name="newClient" type="Dealer_Product__c" default="{ 'sobjectType': 'Dealer_Product__c', 
+                                                                       'Classification_Code__c': '',
+                                                                       'Fee_amount_for_ended_allocations__c':'',
+                                                                       'Fee_amount_for_created_allocations__c': '',
+                                                                       'Product_code__c':'',
+                                                                       'Fee_type__c': '',
+                                                                       'End_date_for_open_allocation__c':'',
+                                                                       'Start_date_for_new_allocation__c': '',
+                                                                       'End_date_for_new_allocation__c':''}"/>
+    <aura:attribute name="clients" type="Dealer_Product__c[]"/>
+    <aura:attribute name="account" type="Account" default="{'sobjectType': 'Account',
+                                                           'name': '',
+                                                           'Exclude_Dealer__c': ''}"/>
+    <aura:attribute name="newPayee" type="Payee_Distribution__c" default="{ 'sobjectType':'Payee_Distribution__c',
+                                                                          'Id':'',
+                                                                          'Payee_Number__c':'',
+                                                                          'Account_name__c':'',
+                                                                          'Allocation_Percentage__c':''}"/>
+    <aura:attribute name="payees" type="Payee_Distribution__c[]" />  
+    <aura:attribute name="dataOption" type="Payee_Distribution__c" default="{ 'sobjectType':'Payee_Distribution__c',
+                                                                          'Id':'',
+                                                                          'Payee_Number__c':'',
+                                                                          'Account_name__c':'',
+                                                                          'Allocation_Percentage__c':'',
+                                                                          'Account_Name__r.Name':''}"/>
+    <aura:attribute name="accounts" type="List"/>
+    <aura:attribute name="show" type="boolean" default="false"/>
+    <aura:attribute name="showEdit" type="boolean" default="false"/>
+    <aura:attribute name="showError" type="boolean" default="false"/>
+    <aura:attribute name="disable" type="boolean" default="true"/>
+    <aura:attribute name="data" type="Payee_Distribution__c[]"/>
+    <aura:attribute name="grandTotal" type="Integer" default="0"/>
+    <aura:attribute name="columns" type="List"/>
+    <aura:attribute name="showTable" type="boolean" default="false"/>
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}"/> 
+    <aura:attribute name="todayDate" type="date"/>
+    <aura:attribute name="productcode" type="string" default="Product_code__c"/>
+    <aura:attribute name="objectname" type="string" default="Dealer_Product__c"/>
+    <aura:attribute name="feetype" type="string" default="Fee_type__c"/>
+    <aura:attribute name="productList" type="Dealer_Product__c"/>
+    <aura:attribute name="feeList" type="Dealer_Product__c"/>
+    <aura:attribute name="selectedValues" type="list"/>
+    <aura:attribute name="searchValue" type="string"/>
+    <aura:attribute name="ids" type="string[]"/>
+    <aura:handler name="accountOptions" event="c:AccountNameEvent" action="{!c.eventHandler}"/>
+    <aura:attribute name="accountNames" type="list"/>
+   
+    <lightning:layout>
+        <lightning:layoutItem padding="around-small" size="12">
+            <fieldset class="slds-box slds-theme_default slds-container_xx-large">
+                <h1 class="slds-text-heading_medium">Mass Client Fee Distribution</h1>
+                <form class="slds-form_stacked">
+                    <div class="slds-form slds-grid slds-wrap">
+                        <div class="slds-size_1-of-2">
+                            <lightning:input aura:id="clientFee" 
+                                             
+                                             type="text" 
+                                             Name="Classification Code" 
+                                             label ="Classification Code" 
+                                             required="true" 
+                                             value="{!v.newClient.Classification_Code__c}"/>
+                        </div>
+                        <lightning:input aura:id="clientFee" 
+                                         class="slds-size_1-of-2" 
+                                         type="text" 
+                                         Name="Fee amount for which allocations to be ended" 
+                                         label ="Fee amount for which allocations to be ended" 
+                                         value="{!v.newClient.Fee_amount_for_ended_allocations__c}"/>
+                        
+                        <div class="slds-size_1-of-2" aura:id="clientFee">
+                            <c:MultiSelect options="{!v.accounts}" values="{!v.selectedValues}" />
+                        </div>
+                        
+                        <lightning:input aura:id="clientFee" 
+                                         class="slds-size_1-of-2" 
+                                         type="text" 
+                                         Name="Fee amount for which allocations to be created" 
+                                         label ="Fee amount for which allocations to be created" 
+                                         required="true" 
+                                         value="{!v.newClient.Fee_amount_for_created_allocations__c}"/>
+                    </div>
+                    
+                    <lightning:select aura:id="clientFee" 
+                                      class="slds-size_1-of-2" 
+                                      Name="Product code" 
+                                      label ="Product code" 
+                                      required="true" 
+                                      value="{!v.newClient.Product_code__c}">
+                        <option> </option>
+                        <aura:iteration items="{!v.productList}" var="product">
+                            <option value="{!product}"> {!product} </option> 
+                        </aura:iteration>
+                    </lightning:select>
+                    
+                    <lightning:select aura:id="clientFee" 
+                                      class="slds-size_1-of-2"
+                                      Name="Fee type" 
+                                      label ="Fee type" 
+                                      required="true" 
+                                      value="{!v.newClient.Fee_type__c}">
+                        <option> </option>
+                        <aura:iteration items="{!v.feeList}" var="fee">
+                            <option value="{!fee}"> {!fee} </option>
+                        </aura:iteration>
+                    </lightning:select>
+                    
+                    <lightning:input aura:id="clientFee" 
+                                     class="slds-size_1-of-2" 
+                                     type="date" 
+                                     Name="End date for open allocation" 
+                                     label ="End date for open allocation" 
+                                     value="{!v.newClient.End_date_for_open_allocation__c}"/>
+                    
+                    <lightning:input aura:id="clientFee" 
+                                     class="slds-size_1-of-2" 
+                                     type="date" 
+                                     Name="Start date for new allocation" 
+                                     label ="Start date for new allocation" 
+                                     required="true"
+                                     min="{!v.todayDate}"
+                                     value="{!v.newClient.Start_date_for_new_allocation__c}"/>
+                    
+                    <lightning:input aura:id="clientFee" 
+                                     class="slds-size_1-of-2" 
+                                     type="date" 
+                                     Name="End date for new allocation" 
+                                     label ="End date for new allocation" 
+                                     min="{!v.newClient.Start_date_for_new_allocation__c}"
+                                     value="{!v.newClient.End_date_for_new_allocation__c}"/>
+                    
+                    <lightning:button label="New Payee Distribution" 
+                                      class="slds-m-top_medium"  
+                                      variant="brand" 
+                                      onclick="{!c.showPopup}"/>
+                    <br/>
+               <aura:if isTrue="{!v.showTable}">
+                        <div style="height: 250px; width:1200px">
+                            <table id="table" class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_striped">
+                                <thead>
+                                    <tr class="slds-line-height_reset">
+                                        <th>
+                                            <div class = "slds-truncate" title="#">#</div>
+                                        </th>
+                                        <th>
+                                            <div class = "slds-truncate" title="Name">Name</div>
+                                        </th>
+                                        <th>
+                                            <div class = "slds-truncate" title="Payee Number">Payee Number</div>
+                                        </th>
+                                        <th>
+                                            <div class = "slds-truncate" title="Allocation Percentage">Allocation Percentage</div>
+                                        </th>
+                                        <th>
+                                            <div class = "slds-truncate" title="Edit">Edit</div>
+                                        </th>
+                                        <th>
+                                            <div class = "slds-truncate" title="Delete">Delete</div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <aura:iteration items="{!v.data}" var = "data" indexVar="index">
+                                        <tr class="slds-hint-parent">
+                                            <td data-label="#" >
+                                                <div class="slds-truncate">{!index+1}</div>
+                                            </td>
+                                            <td data-label="Name">
+                                                <div class="slds-truncate">
+                                                    <aura:if isTrue = "{!data.Account_name__r.Name != null}">
+                                                        {!data.Account_name__r.Name}	   
+                                                        <aura:set attribute = "else">NA</aura:set>
+                                                    </aura:if>
+                                                </div>
+                                            </td>
+                                            <td data-label="Payee Number">
+                                                <div class="slds-truncate">
+                                                    <aura:if isTrue = "{!data.Payee_Number__c != null}">
+                                                        {!data.Payee_Number__c}	   
+                                                        <aura:set attribute = "else">NA</aura:set>
+                                                    </aura:if>
+                                                </div>
+                                            </td>
+                                            <td data-label="Allocation Percentage">
+                                                <div class="slds-truncate">{!data.Allocation_Percentage__c}</div>
+                                            </td>
+                                            <td data-label="Edit">
+                                                <div class="slds-truncate" id="{!index}" onclick="{!c.editData}">
+                                                    <lightning:icon iconName = "utility:edit" size="small"/>
+                                                </div>
+                                            </td>
+                                            <td data-label="Delete">
+                                                <div class="slds-truncate" id="{!index}" onclick="{!c.deleteData}">
+                                                    <lightning:icon iconName = "utility:delete" size="small"/>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </aura:iteration>
+                                    <tr class="slds-hint-parent">
+                                        <td></td>
+                                        <td></td>
+                                        <td>
+                                            <div class = "slds-truncate slds-float_right">GrandTotal</div>
+                                        </td>
+                                        <td>
+                                            <div class = "slds-truncate">{!v.grandTotal}
+                                            <aura:if isTrue = "{!v.showError}">
+                                                &nbsp; &nbsp;<span style = "color:red">GrandTotal should be lesser than or equal to 100</span>
+                                            </aura:if>
+                                            </div>
+                                        </td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                                </aura:if>
+                                <lightning:button label="Submit" 
+                                                  class="slds-m-top_medium"  
+                                                  variant="brand"
+                                                  disabled="{!v.disable}"
+                                                  onclick="{!c.submitHandler}"/>
+                                
+                                <lightning:button label="Cancel" 
+                                                  class="slds-m-top_medium" 
+                                                  onclick=""/>      
+                            </form>
+                        </fieldset>
+                    </lightning:layoutItem>
+                </lightning:layout>	
+                
+                <aura:if isTrue="{!v.show}">
+                    <div role="dialog" tabindex="-1" aria-labelledby="header" aria-describedby="content" class="slds-modal slds-fade-in-open "> 
+                        <div class="slds-modal__container">        
+                            
+                            <div class="slds-modal__header"> 
+                                <button class="slds-button slds-modal__close slds-button--icon-inverse" title="Close" onclick="{!c.hidePopup}">
+                                    X
+                                    <span class="slds-assistive-text">Close</span>
+                                </button>
+                                <h2 id="header" class="slds-text-heading--medium">Payee Distribution</h2>
+                            </div>
+                            
+                            <div class="slds-modal__content slds-p-around--medium" id="content">
+                                <fieldset class="slds-form--compound">
+                                    <lightning:input aura:id="searchId" 
+                                                     class="slds-size_1-of-2" 
+                                                     type="search" 
+                                                     Name="Payee" 
+                                                     label="Payee" 
+                                                     placeholder="Enter Payee/Payee Number"
+                                                     required="true"
+                                                     onblur="{!c.searchHandler}"/>
+                                    
+                                    <lightning:input aura:id="clientFee" 
+                                                     class="slds-size_1-of-2" 
+                                                     type="text" 
+                                                     Name="Allocation Percentage" 
+                                                     label="Allocation Percentage"  
+                                                     required="true"
+                                                     value="{!v.newPayee.Allocation_Percentage__c}"/>    
+                                </fieldset>
+                            </div>
+                            
+                            <div class="slds-modal__footer"> 
+                                <button class="slds-button slds-button--brand" onclick="{!c.hidePopup}">Close</button>
+                                <button class="slds-button slds-button--brand" onclick="{!c.savePopup}">Submit</button> 
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-backdrop slds-backdrop--open"></div>
+                </aura:if> 
+         <aura:if isTrue="{!v.showEdit}">
+                    <div role="dialog" tabindex="-1" aria-labelledby="header" aria-describedby="content" class="slds-modal slds-fade-in-open "> 
+                        <div class="slds-modal__container">        
+                           <div class="slds-modal__content slds-p-around--medium" id="content">
+                                <fieldset class="slds-form--compound">
+                                    <lightning:input aura:id="" 
+                                                     class="slds-size_1-of-2" 
+                                                     type="search" 
+                                                     Name="Name" 
+                                                     label="Name" 
+                                                     value="{!v.dataOption.Account_name__r.Name}" />
+                                    
+                                    <lightning:input aura:id=""
+                                                     class="slds-size_1-of-2" 
+                                                     type="number" 
+                                                     Name="Payee Number" 
+                                                     label="Payee Number" 
+                                                     value="{!v.dataOption.Payee_Number__c}" />
+                                    
+                                    <lightning:input aura:id="" 
+                                                     class="slds-size_1-of-2" 
+                                                     type="text" 
+                                                     Name="Allocation Percentage" 
+                                                     label="Allocation Percentage"  
+                                                     value="{!v.dataOption.Allocation_Percentage__c}"/>    
+                                </fieldset>
+                            </div>
+                            
+                            <div class="slds-modal__footer"> 
+                                <button class="slds-button slds-button--brand" onclick="{!c.saveEditPopup}">Submit</button>
+                                <button class="slds-button slds-button--brand" onclick="{!c.hideEditPopup}">Cancel</button> 
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-backdrop slds-backdrop--open"></div>
+                </aura:if> 
+</aura:component>

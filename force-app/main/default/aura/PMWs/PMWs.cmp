@@ -1,0 +1,16 @@
+<aura:component implements="flexipage:availableForAllPageTypes" CONTROLLER = "AccountListController">
+    <aura:attribute type="Account[]" name="acctList"/>
+    <aura:attribute type="Boolean" name="showTable" default="false"/>
+    <aura:attribute type="String" name="searchText"/>
+	<aura:attribute name="mycolumns" type="List"/>
+    <div class="slds-form-element">
+    <Lightning:input type="text" name="accountSearch" value="{!v.searchText}"/>
+        <Lightning:button type="button" title = "search" variant="brand" onClick="{!c.fetchAccounts}">Search</Lightning:button>
+    </div>
+<!--aura:if isTrue = "{!v.acctList}">
+<lightning:datatable data="{!v.acctList}"
+columns="{! v.mycolumns }"
+keyField="id"
+hideCheckboxColumn="true"/>
+</aura:if-->
+</aura:component>

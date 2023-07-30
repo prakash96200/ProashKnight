@@ -1,0 +1,65 @@
+<template>
+<lightning-card>
+    <div class="slds-align_absolute-center"><strong>To Do List</strong></div>
+    <div class="slds-p-around_x-large">
+    <lightning-layout>
+        <lightning-input class="TODOName" type="text" label="TO Do Name" value={toDO.Name}></lightning-input>
+    </lightning-layout>
+        <lightning-layout >
+            <lightning-layout-item >
+                <lightning-input class="TODODate" 
+                type="Date" 
+                label="Due Date" 
+                value={toDO.Due_Date__c}>
+                </lightning-input>
+            </lightning-layout-item>
+                <lightning-layout-item >
+                    <lightning-combobox class= "TODOPriority"
+                        name="TO DO Priority"
+                        label="Priority"
+                        value={toDO.Priority__c}
+                        placeholder="Select Priority"
+                        options={PriorityPicklistOptions}>
+                    </lightning-combobox>
+                </lightning-layout-item>
+            </lightning-layout>
+        <div class="slds-card__footer">
+            <template if:false={isMassSelect}>
+            <lightning-button variant="brand" label="Save" class="slds-m-left_x-small slds-float_right"
+                onclick={onSaveHandler}></lightning-button>
+            </template>
+            <template if:true={isMassSelect}>
+            <lightning-button variant="brand" label="Delete" class="slds-m-left_x-small slds-float_right"
+                onclick={onDeleteHandler}></lightning-button>
+            <lightning-button variant="brand" label="Finish" class="slds-m-left_x-small slds-float_right"
+                onclick={onFinishHandler}></lightning-button>
+            </template>
+        </div>
+    </div>
+</lightning-card>
+<template if:true={toDoList}>
+<lightning-layout >
+    <lightning-layout-item size="12">
+        <template iterator:it={toDoList}>
+            <div key={it.value.Id} class ="slds-p-around_x-small" >
+                <lightning-card  title={it.value.Name}>
+                    <lightning-layout multiple-rows>
+                        <lightning-layout-item>
+                            <Lightning-input class ="slds-p-around_x-small" type="checkbox" value={it.value.Id} checked={isChecked} onchange={handleChange} ></Lightning-input>
+                        </lightning-layout-item>
+                        <lightning-layout-item>
+                            <p class ="slds-p-around_x-small"><Strong>{it.value.Status__c}</Strong>></p>
+                            <p class ="slds-p-around_x-small">{it.value.Priority__c}</p>                        
+                        </lightning-layout-item>
+                    </lightning-layout>
+                    <template if:false={isMassSelect}>
+                    <lightning-button class ="slds-p-around_x-small" label="Finish" value={it.value.Id} onclick={onSinglFinishOrDelete} slot="actions"></lightning-button>
+                    <lightning-button class ="slds-p-around_x-small" label="Delete" value={it.value.Id} onclick={onSinglFinishOrDelete} slot="actions"></lightning-button>
+                </template>
+                </lightning-card>
+        </div>
+        </template>
+    </lightning-layout-item>
+</lightning-layout>
+</template>
+</template>

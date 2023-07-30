@@ -1,0 +1,12 @@
+<aura:component >
+    
+    <aura:registerEvent name="cmpEvent" type="c:ComponentEvent"/>
+    <aura:attribute name="MsgToDisplay" type="string"/>
+    
+    <h2>This is from Child Component</h2>
+    
+    <lightning:input label="InputMessage" type="text" value="{!v.MsgToDisplay}" onChange="{!c.onUpdate}" />
+    
+  
+                     
+ </aura:component>

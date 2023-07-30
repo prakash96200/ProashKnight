@@ -1,0 +1,22 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" controller="AccountListController" >
+	<aura:attribute type="list" name="acctList"/>
+    <aura:attribute type="Boolean" name="showTable1" default="true"/>
+    <aura:attribute type="Boolean" name="howTable" default="true"/>
+    <aura:attribute type="Boolean" name="owTable" default="false"/>
+    <aura:attribute type="String" name="searchText"/>
+	<aura:attribute name="mycolumns" type="List"/>
+    <Lightning:card>
+        <div class="slds_p_around_x_large">
+            <lightning:input type="text" placeholder="Search" value="{!v.searchText}"></lightning:input>
+            	<lightning:button type="button" label="search" onclick="{!c.fetchAccounts}"/>
+            <p>{!v.showTable1} {!v.howTable} {!v.owTable} {! AND(v.owTable, AND(v.showTable1,v.howTable))} {! AND(v.showTable1,v.howTable,v.owTable)}</p>
+            
+        </div>
+        <aura:if isTrue = "{! AND(AND(v.showTable1,v.howTable),v.owTable)}">
+        <lightning:datatable data="{!v.acctList}"
+        columns="{! v.mycolumns }"
+        keyField="id"
+        hideCheckboxColumn="true"/>
+        </aura:if>
+   	</Lightning:card>
+</aura:component>

@@ -1,0 +1,16 @@
+<apex:page >
+    <apex:includeLightning />
+    <div id='otherDetailBtn'/>
+    <script>
+        $Lightning.use("c:PMWsApp", function() {
+          $Lightning.createComponent("c:PMWs",
+              {  },
+              "otherDetailBtn",
+              function(cmp) {
+                console.log("button was created");
+                // do some stuff
+              }
+          );
+        });
+    </script>
+</apex:page>

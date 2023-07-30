@@ -1,0 +1,17 @@
+<aura:component controller = "AccountListController" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:attribute name="searchKeyWord" type="string"/>
+    <aura:attribute name="columnsToDisplay" type="list"/>
+    <aura:attribute name="opportunities" type="Opportunity[]"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+  <lightning:card class="searchBox" title="Hello">
+       
+      <lightning:input aura:id="searchField"
+                       type="text" 
+                       label="searchInput" 
+                       placeholder="search opporrtunities" 
+                       value="{!v.searchKeyWord}"
+                       onChange="{!c.fetchOppo}"/>
+        
+    </lightning:card>
+</aura:component>

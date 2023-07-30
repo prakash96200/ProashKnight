@@ -1,0 +1,95 @@
+<template>
+    <lightning-card>
+        <lightning-layout>
+            <lightning-layout-item padding="around-small" size="12">
+                <h5><strong>Enter Facility Information</strong></h5>
+                <lightning-input class="validate" label="Facility Name" type="Text" pattern="^[^\s]+[-a-zA-Z0-9\s]+([-a-zA-Z]+)*$" message-when-pattern-mismatch="Facility Name Cannot be empty space" value={facilityName} onchange={handleRecordChange} required>
+                </lightning-input>
+            </lightning-layout-item>
+        </lightning-layout>
+        <lightning-layout multiple-rows>
+            <lightning-layout-item padding="around-small" size="6">
+                <lightning-input class="validate" label="Street Address" type="Text"  pattern="^[^\s]+[-a-zA-Z0-9\s]+([-a-zA-Z]+)*$" message-when-pattern-mismatch="Facility Address Cannot be empty space"  value={facilityStreetAddressOne} onchange={handleRecordChange}
+                    required></lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item padding="around-small" size="6">
+                <lightning-input class="validate" label="Address Line 2" type="Text"  pattern="^[^\s]+[-a-zA-Z0-9\s]+([-a-zA-Z]+)*$" message-when-pattern-mismatch="Facility Address Cannot be empty space"  onchange={handleRecordChange} value={facilityStreetAddressTwo}>
+                </lightning-input>
+            </lightning-layout-item>
+        </lightning-layout>
+        <lightning-layout multiple-rows>
+            <lightning-layout-item padding="around-small" size="4">
+                <lightning-input class="validate" label="City" type="Text" value={facilityCity} pattern="^[^\s]+[-a-zA-Z0-9\s]+([-a-zA-Z]+)*$" message-when-pattern-mismatch="City Cannot be empty space" onchange={handleRecordChange} required >
+                </lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item padding="around-small" size="2">
+                <lightning-combobox class="validate" label="State/Provience" options={stateOption} value={facilityState} onchange={handleRecordChange} required>
+                </lightning-combobox>
+            </lightning-layout-item>
+            <lightning-layout-item padding="around-small" size="2">
+                <lightning-input class="validate" label="Postal Code" type="Text" pattern="^[0-9]{5}(?:-[0-9]{4})?$"
+                    message-when-pattern-mismatch="ZIP code must be in 99999, 99999-9999, X9X 9X9 or X9X9X9 format." onchange={handleRecordChange}
+                    value={facilityPostalCode} required>
+                </lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item padding="around-small" size="2">
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label" for="select-01">Country</label>
+                    <div class="slds-form-element__control">
+                      <div class="slds-select_container">
+                        <select class="slds-select" id="select-01" disabled  >
+                          <option value="USA">USA</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>                 
+            </lightning-layout-item>
+        </lightning-layout>
+        <lightning-layout multiple-rows>
+            <lightning-layout-item padding="around-small" size="4">
+                <lightning-input class="validate" label="Company Email Address" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
+                 message-when-pattern-mismatch="Please enter a valid Email" type="Text" value={facilityEmail} onchange={handleRecordChange}
+                    required>
+                </lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item padding="around-small" size="4">
+                <lightning-input class="validate" label="Facility Phone" type="Text"
+                    pattern="(\(\d{3}\)\s\d{3}-\d{4})|([0-9]{10})" onblur={formatPhoneNumber} onchange={handleRecordChange}
+                    message-when-pattern-mismatch="Please enter a valid phone number" value={facilityPhone} required>
+                </lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item padding="around-small" size="4">
+                <lightning-input class="validate" label="Fax" pattern="(\(\d{3}\)\s\d{3}-\d{4})|([0-9]{10})"
+                    onblur={formatPhoneNumber} message-when-pattern-mismatch="Please enter a valid Fax" type="Text"
+                    value={facilityFax} onchange={handleRecordChange} required>
+                </lightning-input>
+            </lightning-layout-item>
+        </lightning-layout>
+        <lightning-layout multiple-rows>
+            <lightning-layout-item padding="around-small" size="4">
+                <lightning-input class="validate" label="Tax Id Number Type" value="EIN" disabled required >
+                </lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item padding="around-small" size="4">
+                <lightning-input class="validate" label="Employee Identification Number" onchange={handleRecordChange} type="password" pattern="[0-9]{9}$"
+                message-when-pattern-mismatch="Please enter a valid EIN number" value={EIN}
+                    required></lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item padding="around-small" size="4">
+                <lightning-combobox class="validate" label="Type Of Entity" value={EntityType} options={entityOption} placeholder="Select" required>
+                </lightning-combobox>
+            </lightning-layout-item>
+        </lightning-layout>
+        <lightning-layout>
+            <lightning-layout-item padding="around-small" size="12">
+                <div class="slds-card__footer">
+                    <lightning-button variant="brand" label="Next" class="slds-m-left_x-small slds-float_right"
+                        onclick={createNonDealerAccountHandler}></lightning-button>
+                    <lightning-button variant="brand-outline" label="Back" class="slds-m-left_x-small slds-float_right"
+                        onclick={backToEZPass}></lightning-button>
+                </div>
+            </lightning-layout-item>
+
+        </lightning-layout>
+    </lightning-card>
+</template>

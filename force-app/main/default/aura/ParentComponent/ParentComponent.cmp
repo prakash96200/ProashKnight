@@ -1,0 +1,15 @@
+<aura:component >
+    <aura:attribute name="MsgFrmParent" type="string"/>
+    <aura:attribute name="EventCount" type="integer" default="0" />
+    <aura:handler name="cmpEvent" Event="c:ComponentEvent" action="{!c.handleComponentEvent}"/>
+                <h1>This is from parent Component</h1>
+   <p>{!v.MsgFrmParent}</p> 
+    <p>{!v.label}</p>
+    <p>{!v.EventCount}</p> 
+    
+    <hr/>
+    
+    <c:ChildComponent/>
+    
+    
+</aura:component>
