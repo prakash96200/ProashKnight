@@ -12,7 +12,7 @@ contactSet.addAll(Trigger.Old);
 for(Contact newContact : contactSet){
 accountIdSet.add(newContact.AccountId);
 }
-}*/
+}
     if(trigger.isafter && trigger.isDelete){
         if(trigger.old != null){
             for(Contact newContact : trigger.old){
@@ -35,5 +35,5 @@ accountIdSet.add(newContact.AccountId);
             accountToUpdate.no_of_contacts_deleted_today__c += accountIdMap.get(accountToUpdate.id);
         }
     }
-    update accountList ;
+    update accountList ;*/
 }

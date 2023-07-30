@@ -25,8 +25,3 @@ export default class BookApp extends LightningElement {
         },1000)
     }
 }
-
-
-
-
-
