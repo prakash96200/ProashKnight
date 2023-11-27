@@ -1,0 +1,91 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "description": "A service for checking credit for an account.",
+      "version": "1.0.0",
+      "title": "Credit Decision",
+      "termsOfService": "http://swagger.io/terms/",
+      "contact": {
+        "email": "apiteam@swagger.io"
+      },
+      "license": {
+        "name": "Apache 2.0",
+        "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+      }
+    },
+    "servers": [
+      {
+        "url": "https://<YourHostName>"
+      }
+    ],
+    "paths": {
+      "/account/lastCreditRating": {
+        "get": {
+          "summary": "Evaluates credit rating and decides what payment terms to offer.",
+          "description": "",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/accountId"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/accountId"
+                }
+              }
+            },
+            "description": "Specifies input parameters to calculate payment term",
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "description": "success",
+              "content": {
+                "application/xml": {
+                  "schema": {
+                    "$ref": "#/components/schemas/creditRating"
+                  }
+                },
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/creditRating"
+                  }
+                }
+              }
+            },
+            "405": {
+              "description": "Invalid input"
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "schemas": {
+        "accountId": {
+          "type": "object",
+          "properties": {
+            "accountIdString": {
+              "type": "string"
+            }
+          },
+          "xml": {
+            "name": "accountId"
+          }
+        },
+        "creditRating": {
+          "type": "object",
+          "properties": {
+            "creditRatingString": {
+              "type": "string"
+            }
+          },
+          "xml": {
+            "name": "creditRating"
+          }
+        }
+      }
+    }
+  }

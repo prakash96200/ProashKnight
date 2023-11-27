@@ -10,15 +10,15 @@ set<id> accIds  = new set<id>();
             for(Opportunity opp : trigger.newmap.values()){
                 if(trigger.isInsert || (!trigger.oldmap.values().isEmpty() && trigger.oldmap.keySet().contains(opp.id))){
                     if(trigger.isInsert || (trigger.oldmap.get(opp.id).AccountId == opp.AccountId)){
-                    	accIds.add(opp.AccountId);
-                    }
-                	else{
                         accIds.add(opp.AccountId);
-                		accIds.add(trigger.oldmap.get(opp.id).AccountId);
                     }
-            	}
-        	}
-    	}
+                    else{
+                        accIds.add(opp.AccountId);
+                        accIds.add(trigger.oldmap.get(opp.id).AccountId);
+                    }
+                }
+            }
+        }
     }
     Map<id,Account> accountToUpdateMap = new map<id,Account>();
     list<AggregateResult> aggres = [select AccountId, Sum(Amount) sumOfAmount from Opportunity where AccountId in: accIds Group by AccountId];

@@ -5,7 +5,7 @@ public class NewBatchable implements Database.Batchable<sObject>{
     }
     public void execute(Database.BatchableContext bc, List<Account> records){
         for(Account newAccount : records){
-            newAccount.Name = newAccount.Name.replace('engineer',''); 
+            newAccount.Name = newAccount.Name.replace('engineer','');
         }
         update records;
     }

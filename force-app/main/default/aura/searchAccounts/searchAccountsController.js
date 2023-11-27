@@ -1,4 +1,20 @@
 ({
+    doInit : function(component, event, helper) {
+		var action =component.get('c.fetchAccts');
+        action.setParams({
+            "accId": '0015g00001B835JAAR'
+        });
+        action.setCallback(this,function(response){
+            var state = response.getState();
+            console.log(state);
+            if(state='SUCCESS'){
+                var data = response.getReturnValue();
+                component.set('v.account',data);
+                console.log(component.get('v.account'));
+            }
+        });
+       $A.enqueueAction(action); 
+	},
 	fetchAccounts : function(component, event, helper) {
         console.log('inside');        
         component.set('v.mycolumns', [
@@ -10,13 +26,14 @@
         ]);
         var action =component.get('c.fetchAccts');
         action.setParams({
-            "searchText":component.get('v.searchText')
+            "accid": '0015g00001B835JAAR'
         });
         action.setCallback(this,function(response){
             var state = response.getState();
             console.log(state);
             if(state='SUCCESS'){
                 var data = response.getReturnValue();
+                component.set('v.account',response.getReturnValue());
                 data.forEach(function(record){
 				record.linkName = '/'+record.Id;   
             	});
@@ -31,5 +48,18 @@
             }
         });
        $A.enqueueAction(action); 
-	}
+	},
+    downloadpdf:function(component, event, helper){
+    var generatePdfAction=component.get("c.generatePdf");
+
+                    var pdfString = "<div style=\"padding:4px;font-family:Arial Unicode MS;\"> ó, ą, ę, ż, ź, ć, ś, ń,</div>"
+                    var pdfName = "prakash pdf7"
+                    generatePdfAction.setParams({
+                        "webOrderJSON":pdfString
+                        ,"DisId":pdfName})
+
+                        generatePdfAction.setCallback(this,function(resp){
+                        });
+                        $A.enqueueAction(generatePdfAction);
+                }
 })

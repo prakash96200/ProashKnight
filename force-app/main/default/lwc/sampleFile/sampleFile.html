@@ -16,6 +16,10 @@
                 </lightning-layout-item>
                 <lightning-layout-item class="slds-size_1-of-2">
                 <lightning-card>
+    <template if:true={account}>
+    <lightning-input variant="label-hidden" type="number" name="number" value={account.number__c} disabled="true"></lightning-input>
+    <lightning-input variant="label-hidden" type="number" name="number" value={account.number__c} ></lightning-input>
+    </template>
     <lightning-combobox
             name="progress"
             label="Status"

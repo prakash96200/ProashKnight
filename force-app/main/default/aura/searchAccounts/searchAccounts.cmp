@@ -4,19 +4,24 @@
     <aura:attribute type="Boolean" name="howTable" default="true"/>
     <aura:attribute type="Boolean" name="owTable" default="false"/>
     <aura:attribute type="String" name="searchText"/>
+    <aura:attribute type="Account" name="account"/>
 	<aura:attribute name="mycolumns" type="List"/>
-    <Lightning:card>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <lightning:input name="input5" type="number" disabled="true" value="{!v.account.number__c}" label="Disabled text field with a predefined value" />
+    <lightning:button type="button" label="download" onclick="{!c.downloadpdf}"/>
+    <!--Lightning:card>
         <div class="slds_p_around_x_large">
             <lightning:input type="text" placeholder="Search" value="{!v.searchText}"></lightning:input>
             	<lightning:button type="button" label="search" onclick="{!c.fetchAccounts}"/>
             <p>{!v.showTable1} {!v.howTable} {!v.owTable} {! AND(v.owTable, AND(v.showTable1,v.howTable))} {! AND(v.showTable1,v.howTable,v.owTable)}</p>
             
         </div>
+        
         <aura:if isTrue = "{! AND(AND(v.showTable1,v.howTable),v.owTable)}">
         <lightning:datatable data="{!v.acctList}"
         columns="{! v.mycolumns }"
         keyField="id"
         hideCheckboxColumn="true"/>
         </aura:if>
-   	</Lightning:card>
+   	</Lightning:card -->
 </aura:component>

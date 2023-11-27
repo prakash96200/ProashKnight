@@ -19,7 +19,7 @@ export default class NotificationConsole extends LightningElement {
       // listen to all new events
       // and handle them with handleNotificationEvent
       this.subscription = await subscribe(
-        "/event/Notification__e",
+        "/data/ChangeEvents",
         -1,
         (event) => this.handleNotificationEvent(event)
       );
@@ -38,11 +38,11 @@ export default class NotificationConsole extends LightningElement {
     return this.notifications.length;
   }
   handleNotificationEvent(event) {
-    console.dir(event);
+    console.log(event);
     // Parse event data
     const id = event.data.event.replayId;
-    const message = event.data.payload.Message__c;
-    const utcDate = new Date(event.data.payload.CreatedDate);
+    const message = event.data.payload.Name;
+    const utcDate = new Date(event.data.payload.LastModifiedDate);
     const time = `${utcDate.getMinutes()}:${utcDate.getSeconds()}`;
     // Add notification to view
     const notification = {
